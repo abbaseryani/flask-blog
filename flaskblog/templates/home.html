@@ -1,5 +1,128 @@
  {% extends "layout.html" %}
  {%block content%}
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+ <style>
+body {
+    text-decoration: none;
+  font-family: "montserrat";
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 250px;
+  perspective: 1000px;
+  left: 50%;
+  margin:10px;
+  justify-content: center;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  font-size:10px;
+}
+
+.flip-card-front {
+background-color: #fff;
+    bottom: 0;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+    left: 0;
+    margin: auto;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+    font-size:15px;
+}
+
+.flip-card-back {
+  background-color: #808080;
+  color: white;
+  transform: rotateY(180deg);
+  z-index: 1;
+      bottom: 0;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+}
+.middle{
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+
+}
+
+.btns{
+ font-size:13px;
+ width:230px;
+white-space:normal !important;
+    word-wrap: break-word;
+    margin:5px;
+    background:#000cb4;
+}
+h3 {
+    padding: 20px;
+    color: white;
+    background:#000cb4;
+    font-weight: 300;
+    text-align: center;
+    font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+}
+.content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+}
+</style>
+<h1>{{hello}}</h1>
+
+ <div class="container">
+     <div class="row">
+         {% for form in forms %}
+             <div class="col-sm">
+                 <div class="flip-card">
+                  <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                            <h3>{{ form.header }}</h3>
+                        <div class="content">
+                            <p>{{ form.desc }}</p>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        {% for button in form.buttons %}
+
+                                <input type="submit" class="btn btn-info btns" value="{{button.value}}" name="new_btn" onclick="{{button.onclick}}"/>
+
+                        {%endfor%}
+                    </div>
+                  </div>
+                </div>
+             </div>
+         {%endfor%}
+     </div>
+ </div>
  {% for post in posts.items %}
     <article class="media content-section">
         <img class="rounded_circle article-img" src="{{ url_for('static', filename='profile_pics/'+post.author.image_file) }}">
